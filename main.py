@@ -7,7 +7,7 @@ MIN_BET = 10
 # collect user input
 def deposit():
     while True:
-        amount = input("Enter your deposit. Kshs.")
+        amount = input("Enter your deposit. KES.")
         # check if amount is an int
         if amount.isdigit():
             # convert to int
@@ -37,12 +37,36 @@ def get_number_of_lines():
             print("Please enter a number.")
     return lines
 
+def get_bet():
+    while True:
+        amount = input("How much would you like to bet on each line? KES. ")
+        # check if amount is a digit
+        if amount.isdigit():
+            # convert to int
+            amount = int(amount)
+            # check if amount is > 0
+            if MIN_BET <= amount <= MAX_BET:
+                break
+            else:
+                print(f"Amount MUST be between KES. {MIN_BET} - KES. {MAX_BET}.")
+        else:
+            print("Please enter a number.")
+    return amount
 
 
 
 def main():
     balance = deposit()
     lines = get_number_of_lines()
-    print(balance, lines)
+
+    
+
+    bet = get_bet()
+    total_bet = bet * lines
+    
+    print(f"You are betting {bet} on KES. {lines}. Total bet is: KES. {total_bet}.")
+
+    # print(balance, lines) 
+
 
 main()
