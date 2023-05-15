@@ -200,7 +200,6 @@ def spin(balance):
     print(f"You won Kes. {winnings}.")
     print(f"You won on lines: ", *winning_lines) # * is a splat/unpack operator - pass every single line from the winning lines list to the print function
 
-    # print(balance, lines)
 
     print()
 
