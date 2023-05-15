@@ -63,9 +63,11 @@ def print_slot_machine(columns):
             # check index; len(columns) - 1 is the max index to access a column in the list
             # to print the pipe
             if i != len(columns) - 1:
-                print(column[row], "|")
+                print(column[row], end=" | ") # end="\n" - default: new line - tells print statement what to end with
             else:
-                print(column[row])
+                print(column[row], end="")
+        
+        print()
 
 
 # collect user input
