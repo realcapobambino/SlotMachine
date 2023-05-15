@@ -26,13 +26,15 @@ def get_slot_machine_spin(rows, cols, symbols):
     # list of all symbols
     all_symbols =[]
     # iterate though the list dictionary to get values and their keys
-    for symbol, symbol_count in symbols.item():
+    for symbol, symbol_count in symbols.items():
         # _ is an anonymous variable
         for _ in range(symbol_count):
             all_symbols.append(symbol) # e.g symbol A is added 2 times to the list
 
     # select the values that go to each column
-    column = [] # will be a nested list [[], [], []]
+
+    # an empty list of columns
+    columns = [] # will be a nested list [[], [], []]
     # generate column values depending on the number of columns
     for _ in range(cols):
         column = []        
@@ -55,7 +57,7 @@ def get_slot_machine_spin(rows, cols, symbols):
 # transposing(a matrix) to print the columns selected as rows. From _ to |
 def print_slot_machine(columns): 
     # detemine the number of rows we have based on the number of elements in each column
-    for row in range(len(column[0])): # assume there is at least 1 column (index 0)
+    for row in range(len(columns[0])): # assume there is at least 1 column (index 0)
         # loop through all columns and print first value of whatever the index of the current row
         for i, column in enumerate(columns): # enumerate gives the index and item ie column
             # check index; len(columns) - 1 is the max index to access a column in the list
