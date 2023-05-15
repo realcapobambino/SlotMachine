@@ -21,6 +21,37 @@ symbol_count = {
     "D": 8
 }
 
+# set score multipliers
+symbol_value = {
+    "A": 5, 
+    "B": 4,
+    "C": 3,
+    "D": 2
+}
+
+def check_winnings(columns, lines, bet, symbol_value):
+
+    winnings = 0
+
+    winning_lines = []
+
+    # loop through every row the user bet on
+    for line in range(lines):
+        # check the symbol of the first column of the current row - because all symbols need to be the same in order to win
+        symbol = columns[0][line]
+        # loop every column and check for the symbol
+        for column in columns:
+            symbol_to_check = column[line]
+            if symbol != symbol_to_check:
+                break # break the for-loop
+        else:
+            winnings += symbol_value[symbol] * bet
+            winning_lines.append(line + 1)
+    
+    return winnings, winning_lines
+
+
+
 
 def get_slot_machine_spin(rows, cols, symbols):
     # list of all symbols
@@ -72,8 +103,6 @@ def print_slot_machine(columns):
 
 # collect user input
 def deposit():
-    print("Welcome to the SLOT Machine!!")
-    print()
     while True:        
         amount = input(f"Enter your deposit. Kes. (Minimum Deposit is Kes. {MIN_DEPOSIT}): ")
         print()
@@ -90,6 +119,7 @@ def deposit():
         else:
             print("Please enter a number.")
             print()
+        account += amount
     return amount
 
 
@@ -101,8 +131,8 @@ def get_number_of_lines():
         if lines.isdigit():
             # convert to int
             lines = int(lines)
-            # check if lines is between 1 and max
-            if 1<= lines <= MAX_LINES:
+            # check if lines is between 1 and maximum set lines
+            if 1 <= lines <= MAX_LINES:
                 break
             else:
                 print("Enter valid number of lines.")
@@ -113,6 +143,7 @@ def get_number_of_lines():
     return lines
 
 
+
 def get_bet():
     while True:
         amount = input("How much would you like to bet on each line? Kes. ")
@@ -121,7 +152,7 @@ def get_bet():
         if amount.isdigit():
             # convert to int
             amount = int(amount)
-            # check if amount is > 0
+            # check if amount is within betting limits
             if MIN_BET <= amount <= MAX_BET:
                 break
             else:
@@ -133,11 +164,7 @@ def get_bet():
     return amount
 
 
-
-
-
-def main():
-    balance = deposit()
+def spin(balance):
     lines = get_number_of_lines()
 
     while True:
@@ -146,18 +173,53 @@ def main():
 
         if total_bet > balance:
             print(f"Sorry. You do not have enough to bet that amount.")
+            print(f"Your total bet is {total_bet}")
             print(f"Your current balance is: Kes. {balance}")
-            print()
         else:
-            break
-    
-    print(f"You are betting Kes. {bet} on . {lines}.")
+            break    
+    print(f"You are betting Kes. {bet} on {lines} lines.", end="\n")
     print(f"Your total bet is: Kes. {total_bet}.")
+    print(f"Your remaining balance will be Kes. {balance - total_bet}")
+    print()
 
     slots = get_slot_machine_spin(ROWS, COLS, symbol_count)
     print_slot_machine(slots)
+    winnings, winning_lines = check_winnings(slots, lines, bet, symbol_value)
+    print()
+    print(f"You won Kes. {winnings}.")
+    print(f"You won on lines: ", *winning_lines) # * is a splat/unpack operator - pass every single line from the winning lines list to the print function
 
-    # print(balance, lines) 
+    # print(balance, lines)
 
+    print()
 
+    return winnings - total_bet
+
+def main():
+    print("Welcome to the SLOT Machine!!")
+    print()
+    print("Please make a deposit first")
+    print()
+    balance = 0
+    balance += deposit()
+    while True:
+        print(f"Current balance is Kes. {balance}")
+        print()
+        prompt = input(f"Press p to Play. Press d to deposit. (q to quit) : ")
+        print()
+        if prompt == "q":
+            break
+        if prompt == "d":
+            balance += deposit()
+        if prompt == "p":
+            if balance < 10:
+                print("Balance too low to play. Deposit first")
+                print()
+                balance += deposit()
+            balance += spin(balance)
+        else:
+            print("wrong key pressed")
+            print()
+       
+    print(f"You left with Kes. {balance}")    
 main()
