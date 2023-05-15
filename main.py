@@ -33,14 +33,37 @@ def get_slot_machine_spin(rows, cols, symbols):
 
     # select the values that go to each column
     column = [] # will be a nested list [[], [], []]
-    # generate column values depending on the number of rows
-    for col in range(cols):
-        column = []
-        # remove selected value from all symbols list so that it is not selected again
+    # generate column values depending on the number of columns
+    for _ in range(cols):
+        column = []        
         # make a copy of the all symbols list
         current_symbols = all_symbols[:] # the colon [:] is a slice operator
-        for row in range(rows):
-            value = random.choice(all_symbols)
+        # loop through number of values needed which depend on the number of rows in the slot machine
+        for _ in range(rows):
+            value = random.choice(current_symbols)
+            # remove selected value from all symbols list so that it is not selected again
+            current_symbols.remove(value)
+            # add value to column
+            column.append(value)
+
+        # add the generated column to the columns list
+        columns.append(column)
+
+    return columns
+
+
+# transposing(a matrix) to print the columns selected as rows. From _ to |
+def print_slot_machine(columns): 
+    # detemine the number of rows we have based on the number of elements in each column
+    for row in range(len(column[0])): # assume there is at least 1 column (index 0)
+        # loop through all columns and print first value of whatever the index of the current row
+        for i, column in enumerate(columns): # enumerate gives the index and item ie column
+            # check index; len(columns) - 1 is the max index to access a column in the list
+            # to print the pipe
+            if i != len(columns) - 1:
+                print(column[row], "|")
+            else:
+                print(column[row])
 
 
 # collect user input
