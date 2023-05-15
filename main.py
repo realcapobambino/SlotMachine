@@ -148,6 +148,9 @@ def main():
     print(f"You are betting Kes. {bet} on . {lines}.")
     print(f"Your total bet is: Kes. {total_bet}.")
 
+    slots = get_slot_machine_spin(ROWS, COLS, symbol_count)
+    print_slot_machine(slots)
+
     # print(balance, lines) 
 
 
