@@ -1,1 +1,1 @@
-A simple slot machine in Python
+# A simple slot machine in Python
